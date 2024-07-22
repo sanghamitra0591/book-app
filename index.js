@@ -18,7 +18,7 @@ app.use(cors({
 }))
 
 app.get("/", (req, res)=>{
-    res.send({"message" : "Welcome to Home page"});
+    res.status(200).send({ message : "Welcome to Home page"});
 })
 
 app.use(record);
@@ -37,7 +37,7 @@ app.listen(3000, async()=>{
         await connection;
         console.log("Connected to DB")
     } catch (error) {
-        console.log({"error":error});
+        console.log({error:error});
     }
     console.log(`Running at port 3000`);
 })

@@ -11,9 +11,9 @@ const {UserModel}= require("../models/user.model");
 userRouter.get("/", async(req, res)=>{
     try {
         const data= await UserModel.find();
-        res.send({data});
+        res.status(200).send({data});
     } catch (error) {
-        res.send({"Error": "Something went wrong."});
+        res.status(500).send({ error : "Something went wrong."});
         console.log({error});
     }
 })
@@ -25,20 +25,20 @@ userRouter.post("/register", async(req, res)=>{
             bcrypt.hash(password, 5, async(err, hashed)=>{
                 if(err){
                     console.log(err);
-                    res.send({"message" : "Something went wrong"});
+                    res.status(500).send({ message : "Something went wrong"});
                 }else{
                     const newdata= new UserModel({name, email, role, password:hashed});
                     await newdata.save();
-                    res.send({"message" : "Registered"});
+                    res.status(201).send({ message : "Registered"});
                 }
             })
         }else {
             console.log({error});
-            res.send({"Error":"All fields required"});
+            res.status(400).send({ error : "All fields required"});
         }
     } catch (error) {
         console.log(error);
-        res.send({"Error":"Something went wrong"});
+        res.status(500).send({ error :"Something went wrong"});
     }
 })
 
@@ -49,18 +49,18 @@ userRouter.post("/login", async(req, res)=>{
         if(user.length>0){
             bcrypt.compare(password, user[0].password, (err, result)=>{
                 if(err){
-                    res.send({"Error" : "Wrong Credentials."});
+                    res.status(500).send({ error  : "Wrong Credentials."});
                 }else{
                     const token= jwt.sign({userId:user[0]._id, role:user[0].role}, process.env.key);
-                    res.send({"message" : "Login Successful", "token":token});
+                    res.status(200).send({ message : "Login Successful", "token":token});
                 }
             })
         }else{
-            res.send({"message" : "No user found"});
+            res.status(404).send({ message : "No user found"});
         }
     } catch (error) {
         console.log(error);
-        res.send({"message" : "Something went wrong"});
+        res.status(500).send({ message : "Something went wrong"});
     }
 })
 
