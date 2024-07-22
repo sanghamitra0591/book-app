@@ -123,7 +123,7 @@ This repository contains a Node.js Express.js project for managing a collection 
    ```http
    GET /book/:id
    Authorization: Bearer <token>
-   `
+   ```
 
 ## Environment Variables
 
