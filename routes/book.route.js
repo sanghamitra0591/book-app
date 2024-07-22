@@ -47,7 +47,7 @@ bookRouter.post("/add", validateAddBook, async (req, res) => {
 });
 
 
-bookRouter.patch("/:bookId", validateUpdateBook, async(req, res)=>{
+bookRouter.patch("/:bookId", async(req, res)=>{
     const ID= req.params.bookId;
     const data= req.body;
     try {
